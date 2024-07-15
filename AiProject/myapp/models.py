@@ -6,6 +6,9 @@ class User(AbstractUser):
     is_student = models.BooleanField(default=False)
     is_practitioner = models.BooleanField(default=False)
 
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # Add additional fields specific to students here
 
 
 
