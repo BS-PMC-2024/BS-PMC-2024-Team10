@@ -19,7 +19,35 @@ from django.utils.encoding import force_bytes
 import random
 from django.conf import settings
 
+User = get_user_model()
 
+def custom_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                if user.is_student:
+                    return redirect('student_dashboard')
+                # elif user.is_practitioner:
+                #     return redirect('practitioner_dashboard')
+            else:
+                messages.error(request, "Please enter a correct username and password.")
+        else:
+            messages.error(request, "Please enter a correct username and password.")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+                
+
+
+@login_required
+@student_required
+def student_dashboard(request):
+    return render(request, 'student_dashboard.html')
 
 def logout_user(request):
     auth_logout(request)
