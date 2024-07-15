@@ -21,6 +21,10 @@ from django.conf import settings
 
 
 
+def logout_user(request):
+    auth_logout(request)
+    return redirect('login')
+
 def student_register(request):
     if request.method == 'POST':
         form = StudentSignUpForm(request.POST)
