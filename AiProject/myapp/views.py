@@ -21,6 +21,16 @@ from django.conf import settings
 
 
 
+def student_register(request):
+    if request.method == 'POST':
+        form = StudentSignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('student_dashboard')
+    else:
+        form = StudentSignUpForm()
+    return render(request, 'registration/student_register.html', {'form': form})
 
 
 def practitioner_register(request):
