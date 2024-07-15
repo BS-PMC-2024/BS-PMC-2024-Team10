@@ -48,4 +48,69 @@ class CustomPasswordChangeView(PasswordChangeView):
     def form_invalid(self, form):
         messages.error(self.request, 'Please correct the error below.')
         return super().form_invalid(form)
+
+
+
+
+class PasswordResetRequestView(View):
+    def get(self, request):
+        # Clear previous session data related to password reset
+        if 'reset_code' in request.session:
+            del request.session['reset_code']
+        if 'uidb64' in request.session:
+            del request.session['uidb64']
+        if 'token' in request.session:
+            del request.session['token']
+            
+        return render(request, 'password_reset.html', {'form': EmailForm()})
+    
+    def post(self, request):
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            reset_code = str(random.randint(1000, 9999))  # Generate a 4-digit code
+            request.session['reset_code'] = reset_code
+            request.session['uidb64'] = urlsafe_base64_encode(force_bytes(user.pk))
+            request.session['token'] = default_token_generator.make_token(user)
+            send_mail(
+                'Password Reset Code',
+                f'Your password reset code is {reset_code}',
+                'aliafawi51@gmail.com',
+                [email],
+                fail_silently=False,
+            )
+            messages.success(request, 'Password reset code has been sent to your email.')
+            return redirect('verify_code')
+        except User.DoesNotExist:
+            messages.error(request, 'Email not found.')
+            return render(request, 'password_reset.html', {'form': EmailForm()})
+        except Exception as e:
+            messages.error(request, f'An error occurred: {str(e)}')
+            return render(request, 'password_reset.html', {'form': EmailForm()})
+
+
+class CodeVerificationView(View):
+    def get(self, request):
+        form = CodeVerificationForm()
+        return render(request, 'verify_code.html', {'form': form})
+
+    def post(self, request):
+        form = CodeVerificationForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data['code']
+            if code == request.session.get('reset_code'):
+                uidb64 = request.session.get('uidb64')
+                token = request.session.get('token')
+                if uidb64 and token:
+                    return redirect(reverse('password_reset_confirm', kwargs={'uidb64': uidb64, 'token': token}))
+                else:
+                    messages.error(request, 'Session expired or invalid. Please try again.')
+                    return redirect('password_reset')
+            else:
+                messages.error(request, 'Invalid code. Please try again.')
+                return redirect('verify_code')
+        return render(request, 'verify_code.html', {'form': form})
+    
+    
+
 	
