@@ -67,7 +67,7 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 
 
-
+#similar to student
 class PasswordResetRequestView(View):
     def get(self, request):
         # Clear previous session data related to password reset
