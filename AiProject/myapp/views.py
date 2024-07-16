@@ -18,12 +18,6 @@ from django.utils.encoding import force_bytes
 import random
 from django.conf import settings
 
-@login_required
-@practitioner_required
-def practitioner_dashboard(request):
-    return render(request, 'practitioner_dashboard.html')
-
-
 def custom_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -45,18 +39,9 @@ def custom_login(request):
             messages.error(request, "Please enter a correct username and password.")
     else:
         form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html', {'form': form}) 
 
 
-
-
-def logout_user(request):
-    auth_logout(request)
-    return redirect('login')
-
-def logout_user1(request):
-    auth_logout(request)
-    return redirect('login')
 
 def student_register(request):
     if request.method == 'POST':
@@ -82,6 +67,32 @@ def practitioner_register(request):
     return render(request, 'registration/practitioner_register.html', {'form': form})
 
 
+def adminpage(request):
+    return render(request, 'adminpage.html')
+
+
+
+
+@login_required
+@practitioner_required
+def practitioner_dashboard(request):
+    return render(request, 'practitioner_dashboard.html')
+
+
+
+
+
+
+def logout_user(request):
+    auth_logout(request)
+    return redirect('login')
+
+def logout_user1(request):
+    auth_logout(request)
+    return redirect('login')
+
+
+
 
 
 class CustomPasswordChangeView(PasswordChangeView):
@@ -96,6 +107,18 @@ class CustomPasswordChangeView(PasswordChangeView):
         messages.error(self.request, 'Please correct the error below.')
         return super().form_invalid(form)
 
+
+class CustomPasswordChangeView1(PasswordChangeView):
+    template_name = 'change_password.html'
+    success_url = reverse_lazy('change_password')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Your password was successfully updated!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Please correct the error below.')
+        return super().form_invalid(form)
 
 
 #similar to student
@@ -137,8 +160,6 @@ class PasswordResetRequestView(View):
 
 
 
-def adminpage(request):
-    return render(request, 'adminpage.html')
 
 
 class CodeVerificationView(View):
