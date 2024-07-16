@@ -18,6 +18,11 @@ from django.utils.encoding import force_bytes
 import random
 from django.conf import settings
 
+@login_required
+@practitioner_required
+def practitioner_dashboard(request):
+    return render(request, 'practitioner_dashboard.html')
+
 
 def custom_login(request):
     if request.method == 'POST':
@@ -42,7 +47,8 @@ def custom_login(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
-    
+
+
 
 def logout_user(request):
     auth_logout(request)
