@@ -1,4 +1,3 @@
-
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -18,7 +17,6 @@ from django.utils.encoding import force_bytes
 
 import random
 from django.conf import settings
-
 
 
 def logout_user(request):
