@@ -19,6 +19,31 @@ import random
 from django.conf import settings
 
 
+def custom_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                if user.is_student:
+                    return redirect('student_dashboard')
+                elif user.is_practitioner:
+                    return redirect('practitioner_dashboard')
+                elif user.is_staff:
+                    return redirect('adminpage')
+            else:
+                messages.error(request, "Please enter a correct username and password.")
+        else:
+            messages.error(request, "Please enter a correct username and password.")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
+
+    
+
 def logout_user(request):
     auth_logout(request)
     return redirect('login')
@@ -103,6 +128,11 @@ class PasswordResetRequestView(View):
         except Exception as e:
             messages.error(request, f'An error occurred: {str(e)}')
             return render(request, 'password_reset.html', {'form': EmailForm()})
+
+
+
+def adminpage(request):
+    return render(request, 'adminpage.html')
 
 
 class CodeVerificationView(View):
