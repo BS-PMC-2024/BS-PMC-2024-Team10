@@ -5,6 +5,8 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+     path('',views.custom_login, name='login'),
+
  path('admin/', admin.site.urls),
  path('adminpage/', views.adminpage, name='adminpage'),
     path('logout/', views.logout_user, name='logout'),

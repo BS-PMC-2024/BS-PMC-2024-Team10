@@ -29,10 +29,11 @@ def custom_login(request):
                 auth_login(request, user)
                 if user.is_student:
                     return redirect('student_dashboard')
-                elif user.is_practitioner:
-                    return redirect('practitioner_dashboard')
                 elif user.is_staff:
                     return redirect('adminpage')
+                elif user.is_practitioner:
+                    return redirect('practitioner_dashboard')
+                
             else:
                 messages.error(request, "Please enter a correct username and password.")
         else:
