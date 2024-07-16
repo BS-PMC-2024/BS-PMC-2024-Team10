@@ -92,6 +92,13 @@ def logout_user1(request):
     auth_logout(request)
     return redirect('login')
 
+def logout_user2(request):
+    auth_logout(request)
+    return redirect('login')
+
+
+
+
 
 
 
