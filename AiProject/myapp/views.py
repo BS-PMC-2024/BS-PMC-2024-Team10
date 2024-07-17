@@ -18,6 +18,9 @@ from django.utils.encoding import force_bytes
 import random
 from django.conf import settings
 
+
+User = get_user_model()
+
 def custom_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -33,7 +36,6 @@ def custom_login(request):
                     return redirect('adminpage')
                 elif user.is_practitioner:
                     return redirect('practitioner_dashboard')
-                
             else:
                 messages.error(request, "Please enter a correct username and password.")
         else:
@@ -41,7 +43,6 @@ def custom_login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form}) 
-
 
 
 def student_register(request):
@@ -55,7 +56,6 @@ def student_register(request):
         form = StudentSignUpForm()
     return render(request, 'registration/student_register.html', {'form': form})
 
-
 def practitioner_register(request):
     if request.method == 'POST':
         form = PractitionerSignUpForm(request.POST)
@@ -67,11 +67,8 @@ def practitioner_register(request):
         form = PractitionerSignUpForm()
     return render(request, 'registration/practitioner_register.html', {'form': form})
 
-
 def adminpage(request):
     return render(request, 'adminpage.html')
-
-
 
 
 @login_required
@@ -85,19 +82,17 @@ def student_dashboard(request):
     return render(request, 'student_dashboard.html')
 
 
-
-
 def logout_user(request):
     auth_logout(request)
     return redirect('login')
 
-def logout_user1(request):
-    auth_logout(request)
-    return redirect('login')
+# def logout_user1(request):
+#     auth_logout(request)
+#     return redirect('login')
 
-def logout_user2(request):
-    auth_logout(request)
-    return redirect('login')
+# def logout_user2(request):
+#     auth_logout(request)
+#     return redirect('login')
 
 
 
@@ -213,9 +208,6 @@ class CodeVerificationView(View):
                 return redirect('verify_code')
         return render(request, 'verify_code.html', {'form': form})
     
-    
-
-	
     
 def custom_404(request, exception=None):
     return render(request, '404.html', status=404)

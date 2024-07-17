@@ -6,10 +6,10 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
      path('',views.custom_login, name='login'),
-path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
+    path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
     path('practitioner_dashboard/', views.practitioner_dashboard, name='practitioner_dashboard'),
- path('admin/', admin.site.urls),
- path('adminpage/', views.adminpage, name='adminpage'),
+    path('admin/', admin.site.urls),
+    path('adminpage/', views.adminpage, name='adminpage'),
     path('logout/', views.logout_user, name='logout'),
     path('student_register/', views.student_register, name='student_register'),
     path('practitioner_register/', views.practitioner_register, name='practitioner_register'),
@@ -19,3 +19,4 @@ path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
     path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
 ]
+handler404 = 'myapp.views.custom_404'

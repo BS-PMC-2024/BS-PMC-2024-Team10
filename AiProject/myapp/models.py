@@ -10,8 +10,6 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # Add additional fields specific to students here
 
-
-
 class Practitioner(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # Add additional fields specific to practitioners here

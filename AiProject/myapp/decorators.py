@@ -1,5 +1,3 @@
-
-
 from django.shortcuts import render
 
 def student_required(view_func):
