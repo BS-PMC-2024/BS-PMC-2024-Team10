@@ -1,0 +1,117 @@
+<html>
+<head>
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+        <link
+          rel="stylesheet"
+          as="style"
+          onload="this.rel='stylesheet'"
+          href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+        />
+    
+        <title>Galileo Design</title>
+        <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .recording-card, .study-material-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .recording-card:hover, .study-material-card:hover {
+            transform: scale(1.05);
+        }
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 64px;
+            height: 64px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .play-button svg {
+            fill: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+          <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
+            <div class="flex items-center gap-4 text-[#0d151c]">
+              <div class="size-4">
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                  </svg>
+              </div>
+              <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">Ai Buddy</h2>
+          </div>
+            <div class="flex flex-1 justify-end gap-8">
+              <div class="flex items-center gap-9">
+  
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'student_dashboard' %}">home</a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'myCourses' %}">my Courses</a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'files' %}">Study Material</a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'grades' %}">grades</a>
+                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'exams' %}">exams</a>
+  
+  
+                {% if user.is_authenticated %}
+                          <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
+                              {% csrf_token %}
+                              <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal">Logout</button>
+                          </form>
+                          {% else %}
+                          <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}">Login</a></li>
+                          {% endif %}
+                          <li><a href="{% url 'change_password' %}" >Change Password</a></li>
+              </div>
+            </div>
+          </header>
+            <div class="px-40 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+                    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+                        <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">All Recordings</h2>
+                      
+                      
+                      
+                      
+                      
+                        <div class="px-4 py-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {% for material in study_materials %}
+                                <div class="mb-4 p-4 bg-white shadow rounded study-material-card">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/015/154/819/original/pdf-document-download-file-icon-isolated-symbol-sign-free-vector.jpg" alt="{{ material.title }}" class="w-full h-full object-cover">
+                                    <h3 class="text-lg font-bold">{{ material.title }}</h3>
+                                    <p>{{ material.description }}</p>
+                                    {% if material.file %}
+                                        <p><a href="{{ material.file.url }}" class="text-blue-500" target="_blank">Download Study Material</a></p>
+                                    {% else %}
+                                        <p>No file uploaded</p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                         
+                      
+                      
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
