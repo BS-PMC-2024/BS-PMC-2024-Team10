@@ -1,0 +1,182 @@
+
+  {% load custom_filters %}
+
+  <html>
+    <head>
+      <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+      <link
+        rel="stylesheet"
+        as="style"
+        onload="this.rel='stylesheet'"
+        href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+      />
+  
+      <title>Galileo Design</title>
+      <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+  
+      <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+      <style>
+          .assignment-card {
+              position: relative;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              height: auto;
+              background-color: #fff;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              border-radius: 8px;
+              overflow: hidden;
+              transition: transform 0.3s ease;
+              padding: 16px;
+              margin-bottom: 16px;
+          }
+          .assignment-card:hover {
+              transform: scale(1.05);
+          }
+          .assignment-image {
+              flex: 0 0 150px;
+              height: 150px;
+              margin-right: 16px;
+          }
+          .assignment-details {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+          }
+          .form-container {
+              width: 100%;
+              margin-top: 16px;
+          }
+          .form-input {
+              margin-bottom: 8px;
+          }
+          .button-container {
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+          }
+          .button-container a,
+          .button-container button {
+              flex: 1;
+              text-align: center;
+          }
+          .button-container a {
+              margin-right: 8px;
+          }
+          .bg-blue-500 {
+              background-color: #3B82F6;
+          }
+          .bg-green-500 {
+              background-color: #10B981;
+          }
+          .text-white {
+              color: white;
+          }
+          .rounded {
+              border-radius: 0.375rem;
+          }
+          .py-2 {
+              padding-top: 0.5rem;
+              padding-bottom: 0.5rem;
+          }
+          .px-4 {
+              padding-left: 1rem;
+              padding-right: 1rem;
+          }
+          .mt-2 {
+              margin-top: 0.5rem;
+          }
+      </style>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+          <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
+            <div class="flex items-center gap-4 text-[#0d151c]">
+              <div class="size-4">
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                  </svg>
+              </div>
+              <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">Ai Buddy</h2>
+          </div>
+            <div class="flex flex-1 justify-end gap-8">
+              <div class="flex items-center gap-9">
+  
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'student_dashboard' %}">home</a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'myCourses' %}">my Courses</a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'files' %}">Study Material</a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'grades' %}">grades</a>
+                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'exams' %}">exams</a>
+  
+  
+                {% if user.is_authenticated %}
+                          <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
+                              {% csrf_token %}
+                              <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal">Logout</button>
+                          </form>
+                          {% else %}
+                          <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}">Login</a></li>
+                          {% endif %}
+                          <li><a href="{% url 'change_password' %}" >Change Password</a></li>
+              </div>
+            </div>
+          </header>
+              <div class="px-40 flex flex-1 justify-center py-5">
+                  <div class="layout-content-container flex flex-col w-[960px] max-w-[960px] py-5 flex-1">
+                      <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+                          <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">All Exams</h2>
+                          <div class="px-4 py-3 space-y-4">
+                              {% for assignment in assignments %}
+                                  <div class="assignment-card">
+                                      <img src="https://static.vecteezy.com/system/resources/previews/015/154/819/original/pdf-document-download-file-icon-isolated-symbol-sign-free-vector.jpg" alt="{{ assignment.title }}" class="assignment-image">
+                                      <div class="assignment-details">
+                                          <h3 class="text-lg font-bold">{{ assignment.title }}</h3>
+                                          <p>{{ assignment.description }}</p>
+                                          {% if assignment.file %}
+                                              <div class="flex flex-col space-y-2 mt-4">
+                                                  <a href="{{ assignment.file.url }}" class="bg-blue-500 text-white py-2 px-4 rounded" target="_blank">Download</a>
+                                                  {% if not submission_dict|get_item:assignment.id %}
+                                                      <form method="post" enctype="multipart/form-data" action="{% url 'exams' %}">
+                                                          {% csrf_token %}
+                                                          <input type="hidden" name="assignment_id" value="{{ assignment.id }}">
+                                                          <input type="file" name="file" class="form-input w-full border border-gray-300 rounded px-3 py-2">
+                                                          <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded mt-2">Upload Solution</button>
+                                                      </form>
+                                                  {% else %}
+                                                      <p>You have already submitted a solution.</p>
+                                                  {% endif %}
+                                              </div>
+                                          {% else %}
+                                              <p>No file uploaded</p>
+                                          {% endif %}
+                                          <div class="mt-4">
+                                              <h4 class="text-md font-semibold">Your Submissions:</h4>
+                                              <ul>
+                                                  {% for submission in submission_dict.values %}
+                                                      {% if submission.assignment.id == assignment.id %}
+                                                          <li>
+                                                              <a href="{{ submission.file.url }}" class="text-blue-500" target="_blank">View Submission</a>
+                                                              {% if submission.grade %}
+                                                                  <span class="text-gray-600 ml-2">Grade: {{ submission.grade }}</span>
+                                                              {% else %}
+                                                                  <span class="text-gray-600 ml-2">Grade: Not yet graded</span>
+                                                              {% endif %}
+                                                          </li>
+                                                      {% endif %}
+                                                  {% endfor %}
+                                              </ul>
+                                          </div>
+                                      </div>
+                                  </div>
+                              {% endfor %}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </body>
+  </html>
+  
