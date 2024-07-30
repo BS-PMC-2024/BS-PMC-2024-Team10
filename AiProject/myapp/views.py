@@ -247,3 +247,29 @@ def add_recording(request):
     return render(request, 'add_recording.html', {'form': form})
 
 
+
+@login_required
+def exams(request):
+    assignments = Assignment.objects.all()
+    submissions = Submission.objects.filter(student=request.user)
+    submission_dict = {submission.assignment_id: submission for submission in submissions}
+
+    if request.method == 'POST':
+        form = SubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            assignment = get_object_or_404(Assignment, pk=request.POST.get('assignment_id'))
+            if assignment.id not in submission_dict:
+                submission = form.save(commit=False)
+                submission.student = request.user
+                submission.assignment = assignment
+                submission.save()
+            return redirect('exams')  # Redirect to the same page to display the updated data
+
+    return render(request, 'exams.html', {
+        'assignments': assignments,
+        'submission_dict': submission_dict,
+        'form': SubmissionForm()
+    })
+
+
+

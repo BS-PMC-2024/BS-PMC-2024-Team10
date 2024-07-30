@@ -9,6 +9,7 @@ urlpatterns = [
     path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
     path('practitioner_dashboard/', views.practitioner_dashboard, name='practitioner_dashboard'),
     path('admin/', admin.site.urls),
+    path('student_dashboard/exams/',views.exams, name='exams'),
     path('adminpage/', views.adminpage, name='adminpage'),
     path('logout/', views.logout_user, name='logout'),
     path('student_register/', views.student_register, name='student_register'),
