@@ -14,9 +14,28 @@ from .decorators import student_required, practitioner_required
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Assignment, Submission
+from .forms import AssignmentForm, SubmissionForm
+from django.core.mail import send_mail
+from django.http import HttpResponse
 
+
+from django.shortcuts import get_object_or_404, redirect
+from .models import Student, Submission
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Assignment, Submission
+from .forms import SubmissionForm
+from django.contrib.auth.decorators import login_required
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Submission, Assignment, User
 import random
-from django.conf import settings
 
 
 User = get_user_model()
@@ -86,20 +105,6 @@ def logout_user(request):
     auth_logout(request)
     return redirect('login')
 
-# def logout_user1(request):
-#     auth_logout(request)
-#     return redirect('login')
-
-# def logout_user2(request):
-#     auth_logout(request)
-#     return redirect('login')
-
-
-
-
-
-
-
 
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'change_password.html'
@@ -114,17 +119,6 @@ class CustomPasswordChangeView(PasswordChangeView):
         return super().form_invalid(form)
 
 
-# class CustomPasswordChangeView1(PasswordChangeView):
-#     template_name = 'change_password.html'
-#     success_url = reverse_lazy('change_password')
-
-#     def form_valid(self, form):
-#         messages.success(self.request, 'Your password was successfully updated!')
-#         return super().form_valid(form)
-
-#     def form_invalid(self, form):
-#         messages.error(self.request, 'Please correct the error below.')
-#         return super().form_invalid(form)
 class EmailForm(forms.Form):
     email = forms.EmailField()
 
@@ -170,8 +164,7 @@ class PasswordResetRequestView(View):
 
 
 
-from django.core.mail import send_mail
-from django.http import HttpResponse
+
 
 def test_email(request):
     try:
@@ -213,3 +206,132 @@ def custom_404(request, exception=None):
     return render(request, '404.html', status=404)
 
 
+
+
+@login_required
+@practitioner_required
+def add_recording(request):
+    if request.method == 'POST':
+        form = RecordingForm(request.POST, request.FILES)
+        if form.is_valid():
+            recording = form.save(commit=False)
+            recording.uploaded_by = request.user
+            recording.save()
+            messages.success(request, "Recording uploaded successfully.")
+            return redirect('practitioner_dashboard')
+    else:
+        form = RecordingForm()
+    return render(request, 'add_recording.html', {'form': form})
+
+
+
+@login_required
+def exams(request):
+    assignments = Assignment.objects.all()
+    submissions = Submission.objects.filter(student=request.user)
+    submission_dict = {submission.assignment_id: submission for submission in submissions}
+
+    if request.method == 'POST':
+        form = SubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            assignment = get_object_or_404(Assignment, pk=request.POST.get('assignment_id'))
+            if assignment.id not in submission_dict:
+                submission = form.save(commit=False)
+                submission.student = request.user
+                submission.assignment = assignment
+                submission.save()
+            return redirect('exams')  # Redirect to the same page to display the updated data
+
+    return render(request, 'exams.html', {
+        'assignments': assignments,
+        'submission_dict': submission_dict,
+        'form': SubmissionForm()
+    })
+
+@login_required
+def files(request):
+    study_materials = StudyMaterial.objects.all()
+    return render(request, 'files.html', {'study_materials': study_materials})
+
+@login_required
+@practitioner_required
+def Courses(request):
+    user = request.user
+    recordings = Recording.objects.filter(uploaded_by=user)
+    return render(request, 'Courses.html', {'recordings': recordings})
+
+
+    # recordings = Recording.objects.all()  # Retrieve all recordings
+    # return render(request, 'courses.html', {'recordings': recordings})
+
+def recording_success(request):
+    return render(request, 'recording_success.html')
+
+def study_material_success(request):
+    return render(request, 'study_material_success.html')
+
+
+
+from .models import StudyMaterial
+@login_required
+def myCourses(request):
+    recordings = Recording.objects.all()  # Retrieve all recordings
+    return render(request, 'myCourses.html', {'recordings': recordings})
+
+
+@login_required
+def files(request):
+    study_materials = StudyMaterial.objects.all()
+    return render(request, 'files.html', {'study_materials': study_materials})
+
+from django.shortcuts import render, redirect
+from .forms import RecordingForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Recording
+from .decorators import practitioner_required
+
+
+
+
+@login_required
+@practitioner_required
+def add_recording(request):
+    if request.method == 'POST':
+        form = RecordingForm(request.POST, request.FILES)
+        if form.is_valid():
+            recording = form.save(commit=False)
+            recording.uploaded_by = request.user
+            recording.save()
+            messages.success(request, "Recording uploaded successfully.")
+            return redirect('practitioner_dashboard')
+    else:
+        form = RecordingForm()
+    return render(request, 'add_recording.html', {'form': form})
+
+
+
+
+@login_required
+@practitioner_required
+def practitioner_dashboard(request):
+    user = request.user
+    recordings = Recording.objects.filter(uploaded_by=user)
+    return render(request, 'practitioner_dashboard.html', {'recordings': recordings})
+
+
+from .forms import RecordingForm, StudyMaterialForm
+
+@login_required
+def add_study_material(request):
+    if request.method == 'POST':
+        form = StudyMaterialForm(request.POST, request.FILES)
+        if form.is_valid():
+            study_material = form.save(commit=False)
+            study_material.uploaded_by = request.user
+            study_material.save()
+            messages.success(request, "study material success uploaded successfully.")
+            return redirect('study_material_success')  # Change to your desired redirect URL
+    else:
+        form = StudyMaterialForm()
+    return render(request, 'add_study_material.html', {'form': form})
