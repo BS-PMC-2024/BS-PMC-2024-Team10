@@ -213,3 +213,7 @@ def custom_404(request, exception=None):
     return render(request, '404.html', status=404)
 
 
+def add_recording(request):
+    return render(request, 'add_recording.html')
+
+
