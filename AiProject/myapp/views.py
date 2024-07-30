@@ -14,9 +14,25 @@ from .decorators import student_required, practitioner_required
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Assignment, Submission
+from .forms import AssignmentForm, SubmissionForm
 
+
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Assignment, Submission
+from .forms import SubmissionForm
+from django.contrib.auth.decorators import login_required
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Submission, Assignment, User
 import random
-from django.conf import settings
 
 
 User = get_user_model()
@@ -213,7 +229,21 @@ def custom_404(request, exception=None):
     return render(request, '404.html', status=404)
 
 
+
+
+@login_required
+@practitioner_required
 def add_recording(request):
-    return render(request, 'add_recording.html')
+    if request.method == 'POST':
+        form = RecordingForm(request.POST, request.FILES)
+        if form.is_valid():
+            recording = form.save(commit=False)
+            recording.uploaded_by = request.user
+            recording.save()
+            messages.success(request, "Recording uploaded successfully.")
+            return redirect('practitioner_dashboard')
+    else:
+        form = RecordingForm()
+    return render(request, 'add_recording.html', {'form': form})
 
 

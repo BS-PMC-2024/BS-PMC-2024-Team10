@@ -16,6 +16,8 @@ urlpatterns = [
     path('change-password/', views.CustomPasswordChangeView.as_view(), name='change_password'),
     path('password_reset/', views.PasswordResetRequestView.as_view(), name='password_reset'),
     path('verify_code/', views.CodeVerificationView.as_view(), name='verify_code'),
+    path('practitioner_dashboard/add_recording/',views.add_recording, name='add_recording'),
+    path('add_study_material/', views.add_study_material, name='add_study_material'),
     path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
 ]
