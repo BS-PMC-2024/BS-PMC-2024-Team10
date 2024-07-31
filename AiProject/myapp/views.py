@@ -22,14 +22,14 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 
 
-from django.shortcuts import get_object_or_404, redirect
-from .models import Student, Submission
+
 
 
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Assignment, Submission
 from .forms import SubmissionForm
 from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -248,10 +248,7 @@ def exams(request):
         'form': SubmissionForm()
     })
 
-@login_required
-def files(request):
-    study_materials = StudyMaterial.objects.all()
-    return render(request, 'files.html', {'study_materials': study_materials})
+
 
 @login_required
 @practitioner_required
@@ -313,7 +310,7 @@ def add_recording(request):
 
 
 @login_required
-@practitioner_required
+@practitioner_requiredhttps://github.com/BS-PMC-2024/BS-PMC-2024-Team10/pull/26/conflict?name=AiProject%252Fmyapp%252Fviews.py&ancestor_oid=5cb8b9160bae0c908f9fe5b3d1bcafd89691fe40&base_oid=fc25d65cf5799b69abd4df79f9ac297335e2ff2c&head_oid=f8868b0f8e8dd039ded118f820ede2a50fde5e1c
 def practitioner_dashboard(request):
     user = request.user
     recordings = Recording.objects.filter(uploaded_by=user)
@@ -335,3 +332,4 @@ def add_study_material(request):
     else:
         form = StudyMaterialForm()
     return render(request, 'add_study_material.html', {'form': form})
+

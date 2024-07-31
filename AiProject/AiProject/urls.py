@@ -9,6 +9,7 @@ urlpatterns = [
 
     path('',views.custom_login, name='login'),
     path('admin/', admin.site.urls),
+    path('student_dashboard/exams/',views.exams, name='exams'),
     path('adminpage/', views.adminpage, name='adminpage'),
     path('adminpage/users', views.users, name='users'),
     path('adminpage/report', views.report, name='report'),
@@ -36,6 +37,9 @@ urlpatterns = [
     path('verify_code/', views.CodeVerificationView.as_view(), name='verify_code'),
     path('add_study_material/', views.add_study_material, name='add_study_material'),
     path('student_dashboard/files/', views.files, name='files'),
+    path('practitioner_dashboard/add_recording/',views.add_recording, name='add_recording'),
+    path('add_study_material/', views.add_study_material, name='add_study_material'),
+
     path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
 
