@@ -206,7 +206,15 @@ def custom_404(request, exception=None):
     return render(request, '404.html', status=404)
 
 
-
+def grades(request  ):
+    # Get the currently logged-in user
+    student = request.user
+    # Retrieve submissions for the logged-in student
+    submissions = Submission.objects.filter(student=student)
+    context = {
+        'submissions': submissions
+    }
+    return render(request, 'grades.html', context)
 
 @login_required
 @practitioner_required
@@ -248,7 +256,27 @@ def exams(request):
         'form': SubmissionForm()
     })
 
+from django.shortcuts import get_object_or_404, redirect
+from .models import Student, Submission
 
+def studentsGrade(request):
+    practitioner = request.user  # Assuming the practitioner is the logged-in user
+    assignments = Assignment.objects.filter(practitioner=practitioner)
+    submissions = Submission.objects.filter(assignment__in=assignments)
+    
+    if request.method == 'POST':
+        grade = request.POST.get('grade')
+        submission_id = request.POST.get('submission_id')
+        submission = get_object_or_404(Submission, id=submission_id)
+        submission.grade = grade
+        submission.save()
+        print('aaaa')
+        return redirect('practitioner_submissions')
+    
+    context = {
+        'submissions': submissions,
+    }
+    return render(request, 'practitioner_submissions.html', context)
 
 @login_required
 @practitioner_required
@@ -347,3 +375,23 @@ def newTest(request):
     else:
         form = AssignmentForm()
     return render(request, 'newTest.html', {'form': form})
+
+@login_required
+def practitioner_submissions(request):
+    practitioner = request.user  # Assuming the practitioner is the logged-in user
+    assignments = Assignment.objects.filter(practitioner=practitioner)
+    submissions = Submission.objects.filter(assignment__in=assignments)
+    
+    if request.method == 'POST':
+        grade = request.POST.get('grade')
+        submission_id = request.POST.get('submission_id')
+        submission = get_object_or_404(Submission, id=submission_id)
+        submission.grade = grade
+        submission.save()
+        print('aaaa')
+        return redirect('practitioner_submissions')
+    
+    context = {
+        'submissions': submissions,
+    }
+    return render(request, 'practitioner_submissions.html', context)

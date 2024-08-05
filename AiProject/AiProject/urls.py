@@ -4,6 +4,9 @@ from myapp import views
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
+
+from django.conf.urls.static import static
+from myapp.views import practitioner_submissions , delete_user
 urlpatterns = [
     # admin 
 
@@ -20,15 +23,18 @@ urlpatterns = [
     path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
     path('student_dashboard/myCourses/', views.myCourses, name='myCourses'),
     path('student_dashboard/exams/',views.exams, name='exams'),
+    path('student_dashboard/grades/',views.grades, name='grades'),
     path('student_dashboard/files/', views.files, name='files'),
     path('student_register/', views.student_register, name='student_register'),
 
     # practitioner
     path('practitioner_dashboard/', views.practitioner_dashboard, name='practitioner_dashboard'),
     path('practitioner_dashboard/add_recording/',views.add_recording, name='add_recording'),
+    path('practitioner_dashboard/studentsGrade/',views.studentsGrade, name='studentsGrade'),
     path('practitioner_register/', views.practitioner_register, name='practitioner_register'),
     path('practitioner_dashboard/Courses/',views.Courses, name='Courses'),
     path('practitioner_dashboard/newTest/',views.newTest, name='newTest'),
+    path('practitioner_dashboard/studentsGrade/', practitioner_submissions, name='practitioner_submissions'),
 
     # for all
     path('logout/', views.logout_user, name='logout'),
