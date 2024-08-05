@@ -310,7 +310,8 @@ def add_recording(request):
 
 
 @login_required
-@practitioner_requiredhttps://github.com/BS-PMC-2024/BS-PMC-2024-Team10/pull/26/conflict?name=AiProject%252Fmyapp%252Fviews.py&ancestor_oid=5cb8b9160bae0c908f9fe5b3d1bcafd89691fe40&base_oid=fc25d65cf5799b69abd4df79f9ac297335e2ff2c&head_oid=f8868b0f8e8dd039ded118f820ede2a50fde5e1c
+@practitioner_required 
+# https://github.com/BS-PMC-2024/BS-PMC-2024-Team10/pull/26/conflict?name=AiProject%252Fmyapp%252Fviews.py&ancestor_oid=5cb8b9160bae0c908f9fe5b3d1bcafd89691fe40&base_oid=fc25d65cf5799b69abd4df79f9ac297335e2ff2c&head_oid=f8868b0f8e8dd039ded118f820ede2a50fde5e1c
 def practitioner_dashboard(request):
     user = request.user
     recordings = Recording.objects.filter(uploaded_by=user)
@@ -333,3 +334,16 @@ def add_study_material(request):
         form = StudyMaterialForm()
     return render(request, 'add_study_material.html', {'form': form})
 
+@login_required
+def newTest(request):
+    if request.method == 'POST':
+        form = AssignmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            assignment = form.save(commit=False)
+            assignment.practitioner = request.user
+            assignment.save()
+            messages.success(request, "new test success uploaded successfully.")
+            return redirect('study_material_success')
+    else:
+        form = AssignmentForm()
+    return render(request, 'newTest.html', {'form': form})
