@@ -28,7 +28,7 @@ urlpatterns = [
     path('practitioner_dashboard/add_recording/',views.add_recording, name='add_recording'),
     path('practitioner_register/', views.practitioner_register, name='practitioner_register'),
     path('practitioner_dashboard/Courses/',views.Courses, name='Courses'),
-
+    path('practitioner_dashboard/newTest/',views.newTest, name='newTest'),
 
     # for all
     path('logout/', views.logout_user, name='logout'),
