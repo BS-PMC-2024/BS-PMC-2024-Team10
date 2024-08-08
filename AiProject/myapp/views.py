@@ -1,3 +1,6 @@
+from .forms import RecordingForm, StudyMaterialForm
+from .models import StudyMaterial
+
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -15,30 +18,28 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from .models import Assignment, Submission
 from .forms import AssignmentForm, SubmissionForm
-from django.core.mail import send_mail
-from django.http import HttpResponse
-
-
-
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Assignment, Submission
-from .forms import SubmissionForm
-from django.contrib.auth.decorators import login_required
-
-
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Submission, Assignment, User
 import random
+import openai
+import os
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from .models import StudyMaterial
 
 
+
+
+from django.shortcuts import render, redirect
+from .forms import RecordingForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Recording
+from .decorators import practitioner_required
 User = get_user_model()
+
 
 def custom_login(request):
     if request.method == 'POST':
@@ -206,31 +207,15 @@ def custom_404(request, exception=None):
     return render(request, '404.html', status=404)
 
 
-def grades(request  ):
-    # Get the currently logged-in user
-    student = request.user
-    # Retrieve submissions for the logged-in student
-    submissions = Submission.objects.filter(student=student)
-    context = {
-        'submissions': submissions
-    }
-    return render(request, 'grades.html', context)
-
-@login_required
-@practitioner_required
-def add_recording(request):
-    if request.method == 'POST':
-        form = RecordingForm(request.POST, request.FILES)
-        if form.is_valid():
-            recording = form.save(commit=False)
-            recording.uploaded_by = request.user
-            recording.save()
-            messages.success(request, "Recording uploaded successfully.")
-            return redirect('practitioner_dashboard')
-    else:
-        form = RecordingForm()
-    return render(request, 'add_recording.html', {'form': form})
-
+# def grades(request  ):
+#     # Get the currently logged-in user
+#     student = request.user
+#     # Retrieve submissions for the logged-in student
+#     submissions = Submission.objects.filter(student=student)
+#     context = {
+#         'submissions': submissions
+#     }
+#     return render(request, 'grades.html', context)
 
 
 @login_required
@@ -255,6 +240,23 @@ def exams(request):
         'submission_dict': submission_dict,
         'form': SubmissionForm()
     })
+
+
+@login_required
+def newTest(request):
+    if request.method == 'POST':
+        form = AssignmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            assignment = form.save(commit=False)
+            assignment.practitioner = request.user
+            assignment.save()
+            messages.success(request, "new test success uploaded successfully.")
+            return redirect('study_material_success')
+    else:
+        form = AssignmentForm()
+    return render(request, 'newTest.html', {'form': form})
+
+
 
 from django.shortcuts import get_object_or_404, redirect
 from .models import Student, Submission
@@ -288,6 +290,17 @@ def studentsGrade(request):
     return render(request, 'studentsGrade.html', context)
 
 
+def recording_success(request):
+    return render(request, 'recording_success.html')
+
+def study_material_success(request):
+    return render(request, 'study_material_success.html')
+
+def test_success(request):
+    return render(request, 'test_success.html')
+
+
+
 @login_required
 @practitioner_required
 def Courses(request):
@@ -296,115 +309,19 @@ def Courses(request):
     return render(request, 'Courses.html', {'recordings': recordings})
 
 
-    # recordings = Recording.objects.all()  # Retrieve all recordings
-    # return render(request, 'courses.html', {'recordings': recordings})
-
-def recording_success(request):
-    return render(request, 'recording_success.html')
-
-def study_material_success(request):
-    return render(request, 'study_material_success.html')
-
-
-
-from .models import StudyMaterial
 @login_required
 def myCourses(request):
-    recordings = Recording.objects.all()  # Retrieve all recordings
-    return render(request, 'myCourses.html', {'recordings': recordings})
-
-
-@login_required
-def files(request):
-    study_materials = StudyMaterial.objects.all()
-    return render(request, 'files.html', {'study_materials': study_materials})
-
-from django.shortcuts import render, redirect
-from .forms import RecordingForm
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Recording
-from .decorators import practitioner_required
-
-
-
-
-@login_required
-@practitioner_required
-def add_recording(request):
-    if request.method == 'POST':
-        form = RecordingForm(request.POST, request.FILES)
-        if form.is_valid():
-            recording = form.save(commit=False)
-            recording.uploaded_by = request.user
-            recording.save()
-            messages.success(request, "Recording uploaded successfully.")
-            return redirect('practitioner_dashboard')
+    query = request.GET.get('search', '')
+    if query:
+        recordings = Recording.objects.filter(title__icontains=query)
     else:
-        form = RecordingForm()
-    return render(request, 'add_recording.html', {'form': form})
+        recordings = Recording.objects.all()
 
-
-
-
-@login_required
-@practitioner_required 
-# https://github.com/BS-PMC-2024/BS-PMC-2024-Team10/pull/26/conflict?name=AiProject%252Fmyapp%252Fviews.py&ancestor_oid=5cb8b9160bae0c908f9fe5b3d1bcafd89691fe40&base_oid=fc25d65cf5799b69abd4df79f9ac297335e2ff2c&head_oid=f8868b0f8e8dd039ded118f820ede2a50fde5e1c
-def practitioner_dashboard(request):
-    user = request.user
-    recordings = Recording.objects.filter(uploaded_by=user)
-    return render(request, 'practitioner_dashboard.html', {'recordings': recordings})
-
-
-from .forms import RecordingForm, StudyMaterialForm
-
-@login_required
-def add_study_material(request):
-    if request.method == 'POST':
-        form = StudyMaterialForm(request.POST, request.FILES)
-        if form.is_valid():
-            study_material = form.save(commit=False)
-            study_material.uploaded_by = request.user
-            study_material.save()
-            messages.success(request, "study material success uploaded successfully.")
-            return redirect('study_material_success')  # Change to your desired redirect URL
-    else:
-        form = StudyMaterialForm()
-    return render(request, 'add_study_material.html', {'form': form})
-
-@login_required
-def newTest(request):
-    if request.method == 'POST':
-        form = AssignmentForm(request.POST, request.FILES)
-        if form.is_valid():
-            assignment = form.save(commit=False)
-            assignment.practitioner = request.user
-            assignment.save()
-            messages.success(request, "new test success uploaded successfully.")
-            return redirect('study_material_success')
-    else:
-        form = AssignmentForm()
-    return render(request, 'newTest.html', {'form': form})
-
-@login_required
-def practitioner_submissions(request):
-    practitioner = request.user  # Assuming the practitioner is the logged-in user
-    assignments = Assignment.objects.filter(practitioner=practitioner)
-    submissions = Submission.objects.filter(assignment__in=assignments)
-    
-    if request.method == 'POST':
-        grade = request.POST.get('grade')
-        submission_id = request.POST.get('submission_id')
-        submission = get_object_or_404(Submission, id=submission_id)
-        submission.grade = grade
-        submission.save()
-        print('aaaa')
-        return redirect('practitioner_submissions')
-    
     context = {
-        'submissions': submissions,
+        'recordings': recordings,
+        'query': query,
     }
-    return render(request, 'practitioner_submissions.html', context)
+    return render(request, 'myCourses.html', context)
 
 
 
@@ -434,3 +351,33 @@ def my_favorites(request):
         'recordings': favorite_recordings,
     }
     return render(request, 'my_favorites.html', context)
+
+@login_required
+def files(request):
+    study_materials = StudyMaterial.objects.all()
+    return render(request, 'files.html', {'study_materials': study_materials})
+
+@login_required
+@practitioner_required 
+def practitioner_dashboard(request):
+    user = request.user
+    recordings = Recording.objects.filter(uploaded_by=user)
+    return render(request, 'practitioner_dashboard.html', {'recordings': recordings})
+
+
+from .forms import RecordingForm, StudyMaterialForm
+
+@login_required
+def add_study_material(request):
+    if request.method == 'POST':
+        form = StudyMaterialForm(request.POST, request.FILES)
+        if form.is_valid():
+            study_material = form.save(commit=False)
+            study_material.uploaded_by = request.user
+            study_material.save()
+            messages.success(request, "study material success uploaded successfully.")
+            return redirect('study_material_success')  # Change to your desired redirect URL
+    else:
+        form = StudyMaterialForm()
+    return render(request, 'add_study_material.html', {'form': form})
+
