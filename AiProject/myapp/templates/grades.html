@@ -90,7 +90,6 @@
                                     <th>Assignment Name</th>
                                     <th>Submission</th>
                                     <th>Score</th>
-                                    <th>Notes</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -99,7 +98,6 @@
                                     <td>{{ submission.assignment.title }}</td>
                                     <td><a href="{{ submission.file.url }}" target="_blank" class="text-blue-500">View Submission</a></td>
                                     <td>{{ submission.grade }}</td>
-                                    <td>{{ submission.notes }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

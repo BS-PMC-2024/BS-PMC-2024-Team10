@@ -28,85 +28,128 @@
           <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
 
-                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'student_dashboard' %}">home</a>
-                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'myCourses' %}">my Courses</a>
-                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'files' %}">Study Material</a>
-                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'grades' %}">grades</a>
-              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'exams' %}">exams</a>
+                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'student_dashboard' %}"><b>Home</b></a>
+                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'myCourses' %}"><b>My Courses</b></a>
+                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'files' %}"><b>Study Material</b></a>
+                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'grades' %}"> <b> Grades</b></a>
+              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'exams' %}"> <b> Exams</b></a>
+                        <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'my_favorites' %}"><b>My Favorites</b></a>
 
 
               {% if user.is_authenticated %}
                         <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
                             {% csrf_token %}
-                            <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal">Logout</button>
+                            <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal"> <b> Logout</b></button>
                         </form>
                         {% else %}
-                        <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}">Login</a></li>
+                        <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}"> <b> Login</b></a></li>
                         {% endif %}
-                        <li><a href="{% url 'change_password' %}" >Change Password</a></li>
+                        <li><a href="{% url 'change_password' %}" ><b>  Change Password</b></a></li>
             </div>
           </div>
         </header>
+
+
+
+  
         <div class="px-40 flex flex-1 justify-center py-5">
           <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
-            <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
-      <div class="layout-container flex h-full grow flex-col">
- 
-        <div class="">
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <div class="flex flex-wrap justify-between gap-3 p-4">
-              <div class="flex min-w-72 flex-col gap-3">
-                <p class="text-[#0d151c] tracking-light text-[32px] font-bold leading-tight">Chat with GPT-3</p>
-                <p class="text-[#49779c] text-sm font-normal leading-normal">Get answers, generate text, chat, and more</p>
-              </div>
-            </div>
-            <div class="flex items-end gap-3 p-4">
-              <div
-                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
-                style='background-image: url("https://cdn.usegalileo.ai/stability/7f263043-5026-41a9-aac2-c071373647ba.png");'
-              ></div>
-              <div class="flex flex-1 flex-col gap-1 items-start">
-                <p class="text-[#49779c] text-[13px] font-normal leading-normal max-w-[360px]">GPT-3</p>
-                <p class="text-base font-normal leading-normal flex max-w-[360px] rounded-xl px-4 py-3 bg-[#e7eef4] text-[#0d151c]">Hello there! How can I help you today?</p>
-              </div>
-            </div>
-            <div class="flex items-center px-4 py-3 gap-3 @container">
-              <label class="flex flex-col min-w-40 h-12 flex-1">
-                <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
-                  <input
-                    placeholder="Type your message here..."
-                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d151c] focus:outline-0 focus:ring-0 border-none bg-[#e7eef4] focus:border-none h-full placeholder:text-[#49779c] px-4 rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal"
-                    value=""
-                  />
-                  <div class="flex border-none bg-[#e7eef4] items-center justify-center pr-4 rounded-r-xl border-l-0 !pr-2">
-                    <div class="flex items-center gap-4 justify-end">
-                      <div class="flex items-center gap-1">
-                        <button class="flex items-center justify-center p-1.5">
-                          <div class="text-[#49779c]" data-icon="Paperclip" data-size="20px" data-weight="regular">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
-                              <path
-                                d="M209.66,122.34a8,8,0,0,1,0,11.32l-82.05,82a56,56,0,0,1-79.2-79.21L147.67,35.73a40,40,0,1,1,56.61,56.55L105,193A24,24,0,1,1,71,159L154.3,74.38A8,8,0,1,1,165.7,85.6L82.39,170.31a8,8,0,1,0,11.27,11.36L192.93,81A24,24,0,1,0,159,47L59.76,147.68a40,40,0,1,0,56.53,56.62l82.06-82A8,8,0,0,1,209.66,122.34Z"
-                              ></path>
-                            </svg>
-                          </div>
+              <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Chat with GPT-3</h2>
+     
+              <div class="px-4 py-3">
+                  <label class="flex flex-col min-w-40 h-12 w-full">
+                      <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+                          <input id="user-message" placeholder="Type your message here..." class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d151c] focus:outline-0 focus:ring-0 border-none bg-[#e7eef4] focus:border-none h-full placeholder:text-[#49779c] px-4 rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal" />
+                          <button id="send-button" style ="margin-top: 10px; color: white;"class=" overflow-hidden rounded-xl h-8 px-4 bg-[#2094f3] ">
+                               
+                            <span class="truncate">Send</span>
                         </button>
+
                       </div>
-                      <button
-                        class="min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#2094f3] text-slate-50 text-sm font-medium leading-normal hidden @[480px]:block"
-                      >
-                        <span class="truncate">Send</span>
-                      </button>
-                    </div>
+                  </label>
+              </div>
+              <div class="flex flex-col gap-3 p-4" id="chat-container">
+                  <div class="chat-message gpt-message">
+                      <div class="flex items-end gap-3 p-4">
+                         
+                      </div>
                   </div>
-                </div>
-              </label>
-            </div>
+              </div>
+              <p id="error-message" class="error-message hidden">An error occurred. Please try again.</p>
           </div>
-        </div>
       </div>
-    </div>
-            
-           
-           
-  </body>
+  </div>
+</div>
+<script>
+  document.getElementById('send-button').addEventListener('click', sendMessage);
+  document.getElementById('user-message').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+          e.preventDefault(); // Prevent form submission
+          sendMessage();
+      }
+  });
+  document.getElementById('new-chat-button').addEventListener('click', startNewChat);
+
+  function sendMessage() {
+      const userMessage = document.getElementById('user-message').value;
+      const chatContainer = document.getElementById('chat-container');
+      const errorMessageElement = document.getElementById('error-message');
+
+      if (userMessage.trim() === "") {
+          return;
+      }
+
+      fetch('/adminpage/chat_with_gpt/', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: JSON.stringify({ message: userMessage })
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.error) {
+              errorMessageElement.classList.remove('hidden');
+              errorMessageElement.textContent = data.error;
+          } else {
+              errorMessageElement.classList.add('hidden');
+
+              // Append user message
+              const userMessageElement = document.createElement('div');
+              userMessageElement.className = 'chat-message user-message text-base font-normal leading-normal flex max-w-[360px] rounded-xl px-4 py-3 bg-[#2094f3] text-[#ffffff] self-end';
+              userMessageElement.textContent = userMessage;
+              chatContainer.appendChild(userMessageElement);
+
+              // Append GPT-3 response
+              const gptMessageElement = document.createElement('div');
+              gptMessageElement.className = 'chat-message gpt-message text-base font-normal leading-normal flex max-w-[360px] rounded-xl px-4 py-3 bg-[#e7eef4] text-[#0d151c]';
+              gptMessageElement.textContent = data.message;
+              chatContainer.appendChild(gptMessageElement);
+
+              // Clear input field
+              document.getElementById('user-message').value = "";
+
+              // Scroll to the bottom of the chat
+              chatContainer.scrollTop = chatContainer.scrollHeight;
+          }
+      })
+      .catch(error => {
+          errorMessageElement.classList.remove('hidden');
+          errorMessageElement.textContent = 'An error occurred. Please try again.';
+      });
+  }
+
+  function startNewChat() {
+      const chatContainer = document.getElementById('chat-container');
+      chatContainer.innerHTML = '';
+
+      const initialMessageElement = document.createElement('div');
+      initialMessageElement.className = 'chat-message gpt-message text-base font-normal leading-normal flex max-w-[360px] rounded-xl px-4 py-3 bg-[#e7eef4] text-[#0d151c]';
+      initialMessageElement.textContent = 'Hello there! How can I help you today?';
+      chatContainer.appendChild(initialMessageElement);
+  }
+</script>
+</body>
 </html>
+

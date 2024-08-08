@@ -1,208 +1,178 @@
-<!-- <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-        <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
-        <title>Page</title>
-        
-        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-        <style>
-            .error-message {
-                color: red;
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
-            <div class="layout-container flex h-full grow flex-col">
-                <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
-                    <div class="flex items-center gap-4 text-[#0d151c]">
-                        <div class="size-4">
-                            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
-                            </svg>
-                        </div>
-                        <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">Ai Buddy</h2>
-                    </div>
-                    <nav id="navmenu" class="navmenu ml-auto">
-                        <ul class="flex items-center space-x-4">
-                            {% if user.is_authenticated %}
-                            <form method="post" action="{% url 'logout' %}" class="inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn-getstarted">Logout</button>
-                            </form>
-                            {% else %}
-                            <li><a class="btn-getstarted" href="{% url 'login' %}">Login</a></li>
-                            {% endif %}
-                            <div class="relative">
-                                <button class="btn-getstarted dropdown-toggle" onclick="toggleDropdown()">Register</button>
-                                <div id="dropdownMenu" class="dropdown-menu absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none">
-                                    <li><a class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" href="/student_register/">Student Register</a></li>
-                                    <li><a class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" href="/practitioner_register/">Practitioner Register</a></li>
-                                </div>
-                            </div>
-                            <li><a href="{% url 'password_reset' %}">Forgot my password</a></li>
-                        </ul>
-                    </nav>
-                </header>
-                <main class="main flex flex-col items-center justify-center flex-1 p-6">
-                    <section id="hero" class="hero section">
-                        <div class="container mx-auto px-4">
-                            <h1 class="text-center text-4xl font-bold text-[#0d151c]">Hi {{ user.username }}, </h1>
-                            <ul>
-                                {% for message in messages %}
-                                    <li class="text-center text-lg text-red-600">{{ message }}</li>
-                                {% endfor %}
-                            </ul>
-                            <div class="row justify-center" data-aos="zoom-out">
-                                <div class="col-xl-7 col-lg-9 text-center">
-                                    <h1 class="text-2xl font-semibold">One Page Bootstrap Website Template</h1>
-                                    <p class="mt-2 text-lg">We are team of talented designers making websites with Bootstrap</p>
-                                </div>
-                            </div>
-                            <div class="text-center mt-4" data-aos="zoom-out" data-aos-delay="100">
-                                <a href="#about" class="btn-get-started inline-block bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Get Started</a>
-                            </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-                                <div class="icon-box" data-aos="zoom-out" data-aos-delay="100">
-                                    <div class="icon text-4xl"><i class="bi bi-easel"></i></div>
-                                    <h4 class="title text-xl font-semibold mt-2"><a href="">Lorem Ipsum</a></h4>
-                                    <p class="description mt-1">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-                                </div>
-                                <div class="icon-box" data-aos="zoom-out" data-aos-delay="200">
-                                    <div class="icon text-4xl"><i class="bi bi-gem"></i></div>
-                                    <h4 class="title text-xl font-semibold mt-2"><a href="">Sed ut perspiciatis</a></h4>
-                                    <p class="description mt-1">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-                                </div>
-                                <div class="icon-box" data-aos="zoom-out" data-aos-delay="300">
-                                    <div class="icon text-4xl"><i class="bi bi-geo-alt"></i></div>
-                                    <h4 class="title text-xl font-semibold mt-2"><a href="">Magni Dolores</a></h4>
-                                    <p class="description mt-1">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-                                </div>
-                                <div class="icon-box" data-aos="zoom-out" data-aos-delay="400">
-                                    <div class="icon text-4xl"><i class="bi bi-command"></i></div>
-                                    <h4 class="title text-xl font-semibold mt-2"><a href="">Nemo Enim</a></h4>
-                                    <p class="description mt-1">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </main>
-            </div>
-        </div>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            function toggleDropdown() {
-                var dropdown = document.getElementById("dropdownMenu");
-                dropdown.classList.toggle("hidden");
-            }
-            document.addEventListener("click", function(event) {
-                var dropdownButton = document.querySelector(".dropdown-toggle");
-                var dropdownMenu = document.getElementById("dropdownMenu");
-                if (!dropdownButton.contains(event.target)) {
-                    dropdownMenu.classList.add("hidden");
-                }
-            });
-        </script>
-    </body>
-    </html> -->
-
-
-
-    
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+  <head>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
-    <title>Page</title>
-    
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Galileo Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <style>
-        .error-message {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Manrope, "Noto Sans", sans-serif;'>
-        <div class="layout-container flex h-full grow flex-col">
-            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
-                <div class="flex items-center gap-4 text-[#0d151c]">
-                    <div class="size-4">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
-                        </svg>
-                    </div>
-                    <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">Ai Buddy</h2>
-                </div>
-                <nav id="navmenu" class="navmenu ml-auto">
-                    <ul class="flex items-center space-x-4">
-                        {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'logout' %}" class="inline">
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#0d151c]">
+            <div class="size-4">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                </svg>
+            </div>
+            <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]"><b>Ai Buddy</b></h2>
+        </div>
+          <div class="flex flex-1 justify-end gap-8">
+            <div class="flex items-center gap-9">
+              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'practitioner_dashboard' %}">Home</a>
+
+              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'Courses' %}">Courses</a>
+              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'studentsGrade' %}">Student Grades</a>
+              
+              <div class="relative">
+                <button class="btn-getstarted dropdown-toggle" onclick="toggleDropdown()">Add</button>
+                <div id="dropdownMenu" class="dropdown-menu absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none">
+                    <li><a class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" href="{% url 'add_recording' %}">add Courses</a></li>
+                    <li><a class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" href="{% url 'add_study_material' %}">add study material</a></li>
+                    <li><a class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" href="{% url 'newTest' %}">Add a New Test</a></li>
+
+                  </div>
+            </div>
+
+
+
+
+
+
+
+              
+              {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
                             {% csrf_token %}
-                            <button type="submit" class="btn-getstarted">Logout</button>
+                            <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal">Logout</button>
                         </form>
                         {% else %}
-                        <li><a class="btn-getstarted" href="{% url 'login' %}">Login</a></li>
+                        <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}">Login</a></li>
                         {% endif %}
                         <li><a href="{% url 'change_password' %}" >Change Password</a></li>
+            </div>
+   
+          </div>
+        </header>  
+        <div class="px-40 flex flex-1 justify-center py-5">
+            <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+                <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Chat with GPT-3</h2>
+       
+                <div class="px-4 py-3">
+                    <label class="flex flex-col min-w-40 h-12 w-full">
+                        <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
+                            <input id="user-message" placeholder="Type your message here..." class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d151c] focus:outline-0 focus:ring-0 border-none bg-[#e7eef4] focus:border-none h-full placeholder:text-[#49779c] px-4 rounded-r-none border-r-0 pr-2 text-base font-normal leading-normal" />
+                            <button id="send-button" style ="margin-top: 10px; color: white;"class=" overflow-hidden rounded-xl h-8 px-4 bg-[#2094f3] ">
+                               
+                                <span class="truncate">Send</span>
+                            </button>
 
-                    </ul>
-                </nav>
-            </header>
-            <main class="main flex flex-col items-center justify-center flex-1 p-6">
-                <section id="hero" class="hero section">
-                    <div class="container mx-auto px-4">
-                        <h1 class="text-center text-4xl font-bold text-[#0d151c]">Hi {{ user.username }}, </h1>
-                        <ul>
-                            {% for message in messages %}
-                                <li class="text-center text-lg text-red-600">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                        <!-- <div class="row justify-center" data-aos="zoom-out">
-                            <div class="col-xl-7 col-lg-9 text-center">
-                                <h1 class="text-2xl font-semibold">One Page Bootstrap Website Template</h1>
-                                <p class="mt-2 text-lg">We are team of talented designers making websites with Bootstrap</p>
-                            </div>
                         </div>
-                        <div class="text-center mt-4" data-aos="zoom-out" data-aos-delay="100">
-                            <a href="#about" class="btn-get-started inline-block bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Get Started</a>
+                    </label>
+                </div>
+                <div class="flex flex-col gap-3 p-4" id="chat-container">
+                    <div class="chat-message gpt-message">
+                        <div class="flex items-end gap-3 p-4">
+                           
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-                            <div class="icon-box" data-aos="zoom-out" data-aos-delay="100">
-                                <div class="icon text-4xl"><i class="bi bi-easel"></i></div>
-                                <h4 class="title text-xl font-semibold mt-2"><a href="">Lorem Ipsum</a></h4>
-                                <p class="description mt-1">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-                            </div>
-                            <div class="icon-box" data-aos="zoom-out" data-aos-delay="200">
-                                <div class="icon text-4xl"><i class="bi bi-gem"></i></div>
-                                <h4 class="title text-xl font-semibold mt-2"><a href="">Sed ut perspiciatis</a></h4>
-                                <p class="description mt-1">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-                            </div>
-                            <div class="icon-box" data-aos="zoom-out" data-aos-delay="300">
-                                <div class="icon text-4xl"><i class="bi bi-geo-alt"></i></div>
-                                <h4 class="title text-xl font-semibold mt-2"><a href="">Magni Dolores</a></h4>
-                                <p class="description mt-1">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-                            </div>
-                            <div class="icon-box" data-aos="zoom-out" data-aos-delay="400">
-                                <div class="icon text-4xl"><i class="bi bi-command"></i></div>
-                                <h4 class="title text-xl font-semibold mt-2"><a href="">Nemo Enim</a></h4>
-                                <p class="description mt-1">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-                            </div>
-                        </div> -->
                     </div>
-                </section>
-            </main>
+                </div>
+                <p id="error-message" class="error-message hidden">An error occurred. Please try again.</p>
+            </div>
         </div>
     </div>
-    <script src="https://cdn.tailwindcss.com"></script>
+</div>
+<script>
+    document.getElementById('send-button').addEventListener('click', sendMessage);
+    document.getElementById('user-message').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Prevent form submission
+            sendMessage();
+        }
+    });
+    document.getElementById('new-chat-button').addEventListener('click', startNewChat);
 
+    function sendMessage() {
+        const userMessage = document.getElementById('user-message').value;
+        const chatContainer = document.getElementById('chat-container');
+        const errorMessageElement = document.getElementById('error-message');
+
+        if (userMessage.trim() === "") {
+            return;
+        }
+
+        fetch('/adminpage/chat_with_gpt/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ message: userMessage })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                errorMessageElement.classList.remove('hidden');
+                errorMessageElement.textContent = data.error;
+            } else {
+                errorMessageElement.classList.add('hidden');
+
+                // Append user message
+                const userMessageElement = document.createElement('div');
+                userMessageElement.className = 'chat-message user-message text-base font-normal leading-normal flex max-w-[360px] rounded-xl px-4 py-3 bg-[#2094f3] text-[#ffffff] self-end';
+                userMessageElement.textContent = userMessage;
+                chatContainer.appendChild(userMessageElement);
+
+                // Append GPT-3 response
+                const gptMessageElement = document.createElement('div');
+                gptMessageElement.className = 'chat-message gpt-message text-base font-normal leading-normal flex max-w-[360px] rounded-xl px-4 py-3 bg-[#e7eef4] text-[#0d151c]';
+                gptMessageElement.textContent = data.message;
+                chatContainer.appendChild(gptMessageElement);
+
+                // Clear input field
+                document.getElementById('user-message').value = "";
+
+                // Scroll to the bottom of the chat
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        })
+        .catch(error => {
+            errorMessageElement.classList.remove('hidden');
+            errorMessageElement.textContent = 'An error occurred. Please try again.';
+        });
+    }
+
+    function startNewChat() {
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.innerHTML = '';
+
+        const initialMessageElement = document.createElement('div');
+        initialMessageElement.className = 'chat-message gpt-message text-base font-normal leading-normal flex max-w-[360px] rounded-xl px-4 py-3 bg-[#e7eef4] text-[#0d151c]';
+        initialMessageElement.textContent = 'Hello there! How can I help you today?';
+        chatContainer.appendChild(initialMessageElement);
+    }
+
+
+    function toggleDropdown() {
+          var dropdown = document.getElementById("dropdownMenu");
+          dropdown.classList.toggle("hidden");
+      }
+      document.addEventListener("click", function(event) {
+          var dropdownButton = document.querySelector(".dropdown-toggle");
+          var dropdownMenu = document.getElementById("dropdownMenu");
+          if (!dropdownButton.contains(event.target)) {
+              dropdownMenu.classList.add("hidden");
+          }
+      });
+</script>
 </body>
 </html>
+
