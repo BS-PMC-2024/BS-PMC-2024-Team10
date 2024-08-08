@@ -63,7 +63,7 @@
                                 {% csrf_token %}
                                 <div class="px-4 py-3">
                                     <label class="flex flex-col min-w-40 flex-1">
-                                        <p class="text-[#0d151c] text-base font-medium leading-normal pb-2">Title</p>
+                                        <p class="text-[#0d151c] text-base font-medium leading-normal pb-2"><b>Title*</b></p>
                                         {{ form.title }}
                                         {% if form.title.errors %}
                                             <div class="text-red-600">
@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="px-4 py-3">
                                     <label class="flex flex-col min-w-40 flex-1">
-                                        <p class="text-[#0d151c] text-base font-medium leading-normal pb-2">Description</p>
+                                        <p class="text-[#0d151c] text-base font-medium leading-normal pb-2"><b>Description</b></p>
                                         {{ form.description }}
                                         {% if form.description.errors %}
                                             <div class="text-red-600">
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="px-4 py-3">
                                     <label class="flex flex-col min-w-40 flex-1">
-                                        <p class="text-[#0d151c] text-base font-medium leading-normal pb-2">File</p>
+                                        <p class="text-[#0d151c] text-base font-medium leading-normal pb-2"><b>New Test*</b></p>
                                         {{ form.file }}
                                         {% if form.file.errors %}
                                             <div class="text-red-600">
@@ -120,3 +120,4 @@
         </script>
         </body>
         </html>
+        

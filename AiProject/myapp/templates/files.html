@@ -60,31 +60,32 @@
               <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">Ai Buddy</h2>
           </div>
             <div class="flex flex-1 justify-end gap-8">
-              <div class="flex items-center gap-9">
-  
-                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'student_dashboard' %}">home</a>
-                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'myCourses' %}">my Courses</a>
-                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'files' %}">Study Material</a>
-                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'grades' %}">grades</a>
-                <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'exams' %}">exams</a>
-  
-  
-                {% if user.is_authenticated %}
-                          <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
-                              {% csrf_token %}
-                              <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal">Logout</button>
-                          </form>
-                          {% else %}
-                          <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}">Login</a></li>
-                          {% endif %}
-                          <li><a href="{% url 'change_password' %}" >Change Password</a></li>
-              </div>
+                <div class="flex items-center gap-9">
+
+                    <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'student_dashboard' %}"><b>Home</b></a>
+                    <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'myCourses' %}"><b>My Courses</b></a>
+                    <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'files' %}"><b>Study Material</b></a>
+                    <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'grades' %}"> <b> Grades</b></a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'exams' %}"> <b> Exams</b></a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'my_favorites' %}"><b>My Favorites</b></a>
+
+    
+                  {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
+                                {% csrf_token %}
+                                <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal"> <b> Logout</b></button>
+                            </form>
+                            {% else %}
+                            <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}"> <b> Login</b></a></li>
+                            {% endif %}
+                            <li><a href="{% url 'change_password' %}" ><b>  Change Password</b></a></li>
+                </div>
             </div>
           </header>
             <div class="px-40 flex flex-1 justify-center py-5">
                 <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
                     <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
-                        <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">All Recordings</h2>
+                        <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Study Material</h2>
                       
                       
                       

@@ -115,37 +115,37 @@
                                         </button>
                                     </div>
 
-
+                                    
                                 </div>
-                                {% endfor %}
-                            </div>
-                            {% if not recordings %}
-                                <p class="text-center text-gray-500">No recordings found.</p>
-                            {% endif %}
+                            {% endfor %}
                         </div>
+                        {% if not recordings %}
+                            <p class="text-center text-gray-500">No recordings found.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        </div>
-    <script>
-        function toggleFavorite(recordingId) {
-            fetch(/toggle_favorite/${recordingId}/, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({})
-            }).then(response => response.json())
-              .then(data => {
-                  if (data.status === 'added') {
-                      alert('Added to favorites');
-                  } else if (data.status === 'removed') {
-                      alert('Removed from favorites');
-                  }
-                  location.reload(); // Reload the page to update the button text
-              });
-        }
-    </script>
+        </div>
+    </div>
+        <script>
+            function toggleFavorite(recordingId) {
+                fetch(`/toggle_favorite/${recordingId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({})
+                }).then(response => response.json())
+                .then(data => {
+                    if (data.status === 'added') {
+                        alert('Added to favorites');
+                    } else if (data.status === 'removed') {
+                        alert('Removed from favorites');
+                    }
+                    location.reload(); // Reload the page to update the button text
+                });
+            }
+        </script>
 </body>
 </html>

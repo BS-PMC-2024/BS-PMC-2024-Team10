@@ -12,73 +12,74 @@
         <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
     
         <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <style>
-        body {
-            font-family: Lexend, "Noto Sans", sans-serif;
-            background-color: #f8fafc;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .table-container {
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table th, table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #eaeaea;
-        }
-        table th {
-            background-color: #f1f5f9;
-        }
-        table tr:hover {
-            background-color: #f1f5f9;
-        }
-    </style>
-</head>
-<body>
-  <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
-    <div class="layout-container flex h-full grow flex-col">
-      <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
-        <div class="flex items-center gap-4 text-[#0d151c]">
-          <div class="size-4">
-              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
-              </svg>
-          </div>
-          <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">Ai Buddy</h2>
-      </div>
-        <div class="flex flex-1 justify-end gap-8">
-          <div class="flex items-center gap-9">
+        <style>
+            body {
+                font-family: Lexend, "Noto Sans", sans-serif;
+                background-color: #f8fafc;
+            }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .table-container {
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            table th, table td {
+                padding: 15px;
+                text-align: left;
+                border-bottom: 1px solid #eaeaea;
+            }
+            table th {
+                background-color: #f1f5f9;
+            }
+            table tr:hover {
+                background-color: #f1f5f9;
+            }
+        </style>
+      </head>
+      <body>
+        <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+          <div class="layout-container flex h-full grow flex-col">
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
+              <div class="flex items-center gap-4 text-[#0d151c]">
+                <div class="size-4">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">Ai Buddy</h2>
+            </div>
+              <div class="flex flex-1 justify-end gap-8">
+                <div class="flex items-center gap-9">
+    
+                    <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'student_dashboard' %}"><b>Home</b></a>
+                    <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'myCourses' %}"><b>My Courses</b></a>
+                    <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'files' %}"><b>Study Material</b></a>
+                    <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'grades' %}"> <b> Grades</b></a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'exams' %}"> <b> Exams</b></a>
+                  <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'my_favorites' %}"><b>My Favorites</b></a>
 
-              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'student_dashboard' %}">home</a>
-              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'myCourses' %}">my Courses</a>
-              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'files' %}">Study Material</a>
-              <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'grades' %}">grades</a>
-            <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'exams' %}">exams</a>
-
-
-            {% if user.is_authenticated %}
-                      <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
-                          {% csrf_token %}
-                          <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal">Logout</button>
-                      </form>
-                      {% else %}
-                      <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}">Login</a></li>
-                      {% endif %}
-                      <li><a href="{% url 'change_password' %}" >Change Password</a></li>
-          </div>
-        </div>
-      </header>
+    
+                  {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
+                                {% csrf_token %}
+                                <button style=" margin-top: 15px;"type="submit" class="text-[#0d151c] text-sm font-medium leading-normal"> <b> Logout</b></button>
+                            </form>
+                            {% else %}
+                            <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}"> <b> Login</b></a></li>
+                            {% endif %}
+                            <li><a href="{% url 'change_password' %}" ><b>  Change Password</b></a></li>
+                </div>
+              </div>
+            </header>
             <div class="px-40 flex flex-1 justify-center py-5">
                 <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
                     <div class="table-container">
@@ -89,6 +90,7 @@
                                     <th>Assignment Name</th>
                                     <th>Submission</th>
                                     <th>Score</th>
+                                    <th>Notes</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -97,6 +99,7 @@
                                     <td>{{ submission.assignment.title }}</td>
                                     <td><a href="{{ submission.file.url }}" target="_blank" class="text-blue-500">View Submission</a></td>
                                     <td>{{ submission.grade }}</td>
+                                    <td>{{ submission.notes }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -105,19 +108,19 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script>
-        function toggleDropdown() {
-            var dropdown = document.getElementById("dropdownMenu");
-            dropdown.classList.toggle("hidden");
-        }
-        document.addEventListener("click", function(event) {
-            var dropdownButton = document.querySelector(".dropdown-toggle");
-            var dropdownMenu = document.getElementById("dropdownMenu");
-            if (!dropdownButton.contains(event.target)) {
-                dropdownMenu.classList.add("hidden");
-            }
-        });
-    </script>
-</body>
-</html>
+      </div>
+      <script>
+          function toggleDropdown() {
+              var dropdown = document.getElementById("dropdownMenu");
+              dropdown.classList.toggle("hidden");
+          }
+          document.addEventListener("click", function(event) {
+              var dropdownButton = document.querySelector(".dropdown-toggle");
+              var dropdownMenu = document.getElementById("dropdownMenu");
+              if (!dropdownButton.contains(event.target)) {
+                  dropdownMenu.classList.add("hidden");
+              }
+          });
+      </script>
+    </body>
+    </html>

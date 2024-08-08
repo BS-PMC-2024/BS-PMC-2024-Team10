@@ -65,12 +65,12 @@
         <div class="px-40 flex flex-1 justify-center py-5">
           <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
               <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
-                  <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Add Study Material</h2>
+                  <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Add Recording</h2>
                   <form method="post" enctype="multipart/form-data">
                       {% csrf_token %}
                       <div class="px-4 py-3">
                           <label class="flex flex-col min-w-40 flex-1">
-                              <p class="text-[#0d151c] text-base font-medium leading-normal pb-2">Title</p>
+                              <b class="text-[#0d151c] text-base font-medium leading-normal pb-2"><b>Title*</b></p>
                                 {{ form.title }}
                                 {% if form.title.errors %}
                                 <div class="text-red-600">
@@ -81,13 +81,13 @@
                         </div>
                         <div class="px-4 py-3">
                           <label class="flex flex-col min-w-40 flex-1">
-                              <p class="text-[#0d151c] text-base font-medium leading-normal pb-2">Description</p>
+                              <p class="text-[#0d151c] text-base font-medium leading-normal pb-2"><b>Description</b></p>
                                 {{ form.description }}
                             </label>
                         </div>
                         <div class="px-4 py-3">
                           <label class="flex flex-col min-w-40 flex-1">
-                              <p class="text-[#0d151c] text-base font-medium leading-normal pb-2">File</p>
+                              <p class="text-[#0d151c] text-base font-medium leading-normal pb-2"><b>Recording*</b></p>
                                 {{ form.confession }}
                                 {% if form.confession.errors %}
                                 <div class="text-red-600">

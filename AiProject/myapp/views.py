@@ -259,24 +259,34 @@ def exams(request):
 from django.shortcuts import get_object_or_404, redirect
 from .models import Student, Submission
 
+@login_required
 def studentsGrade(request):
-    practitioner = request.user  # Assuming the practitioner is the logged-in user
+    practitioner = request.user
     assignments = Assignment.objects.filter(practitioner=practitioner)
     submissions = Submission.objects.filter(assignment__in=assignments)
     
     if request.method == 'POST':
         grade = request.POST.get('grade')
+        notes = request.POST.get('notes')
         submission_id = request.POST.get('submission_id')
         submission = get_object_or_404(Submission, id=submission_id)
         submission.grade = grade
+        submission.notes = notes
         submission.save()
-        print('aaaa')
-        return redirect('practitioner_submissions')
+
+        subject = 'Grade Notification'
+        message = f'Dear {submission.student.first_name},\n\nYour submission for the assignment "{submission.assignment.title}" has been graded. Your grade is {grade}. Notes: {notes}\n\nBest regards,\nYour Instructor'
+        from_email = 'aliafawi51@gmail.com'
+        recipient_list = [submission.student.email]
+        send_mail(subject, message, from_email, recipient_list)
+
+        return redirect('studentsGrade')
     
     context = {
         'submissions': submissions,
     }
-    return render(request, 'practitioner_submissions.html', context)
+    return render(request, 'studentsGrade.html', context)
+
 
 @login_required
 @practitioner_required
