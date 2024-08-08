@@ -189,6 +189,7 @@ class SubmissionForm(forms.ModelForm):
         model = Submission
         fields = ['file']
         widgets = {
+            
             'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
