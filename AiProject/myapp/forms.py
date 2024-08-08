@@ -3,8 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User, Student, Practitioner
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Recording
-
+from django import forms
+from .models import Recording, StudyMaterial
+from .models import Assignment, Submission
 class StudentSignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, help_text='First name')
     last_name = forms.CharField(max_length=30, required=True, help_text='Last name')
@@ -67,13 +68,6 @@ class PractitionerSignUpForm(UserCreationForm):
             Practitioner.objects.create(user=user)
         return user
 
-
-
-
-# myapp/forms.py
-from django import forms
-from .models import Recording
-
 class RecordingForm(forms.ModelForm):
     class Meta:
         model = Recording
@@ -101,18 +95,6 @@ class RecordingForm(forms.ModelForm):
             'class': 'form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0d151c] focus:outline-0 focus:ring-0 border-none bg-[#e7eef4] focus:border-none h-14 placeholder:text-[#49779c] p-4'
         })
     )
-
-from .models import Recording, StudyMaterial
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -144,14 +126,6 @@ class StudyMaterialForm(forms.ModelForm):
         })
     )
 
-
-
-
-
-
-
-from django import forms
-from .models import Assignment, Submission
 
 class AssignmentForm(forms.ModelForm):
     class Meta:
@@ -189,7 +163,7 @@ class SubmissionForm(forms.ModelForm):
         model = Submission
         fields = ['file']
         widgets = {
-            
+
             'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
