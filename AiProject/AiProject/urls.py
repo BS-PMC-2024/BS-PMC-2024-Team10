@@ -1,12 +1,14 @@
 from django.conf.urls import handler404
-from django.urls import path
+from django.urls import path # type: ignore
 from myapp import views
-from django.contrib import admin
+from django.contrib import admin # type: ignore
 from django.contrib.auth import views as auth_views
-
-
+from django.conf import settings
 from django.conf.urls.static import static
-from myapp.views import practitioner_submissions , delete_user
+from myapp.views import delete_user
+from myapp import views
+from myapp.views import myCourses, toggle_favorite, my_favorites
+
 urlpatterns = [
     # admin 
 
@@ -23,18 +25,15 @@ urlpatterns = [
     path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
     path('student_dashboard/myCourses/', views.myCourses, name='myCourses'),
     path('student_dashboard/exams/',views.exams, name='exams'),
-    path('student_dashboard/grades/',views.grades, name='grades'),
     path('student_dashboard/files/', views.files, name='files'),
     path('student_register/', views.student_register, name='student_register'),
 
     # practitioner
     path('practitioner_dashboard/', views.practitioner_dashboard, name='practitioner_dashboard'),
     path('practitioner_dashboard/add_recording/',views.add_recording, name='add_recording'),
-    path('practitioner_dashboard/studentsGrade/',views.studentsGrade, name='studentsGrade'),
     path('practitioner_register/', views.practitioner_register, name='practitioner_register'),
     path('practitioner_dashboard/Courses/',views.Courses, name='Courses'),
-    path('practitioner_dashboard/newTest/',views.newTest, name='newTest'),
-    path('practitioner_dashboard/studentsGrade/', practitioner_submissions, name='practitioner_submissions'),
+
 
     # for all
     path('logout/', views.logout_user, name='logout'),
@@ -45,7 +44,8 @@ urlpatterns = [
     path('student_dashboard/files/', views.files, name='files'),
     path('practitioner_dashboard/add_recording/',views.add_recording, name='add_recording'),
     path('add_study_material/', views.add_study_material, name='add_study_material'),
-
+    path('toggle_favorite/<int:recording_id>/', toggle_favorite, name='toggle_favorite'),
+    path('my_favorites/', my_favorites, name='my_favorites'),
     path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_confirm.html'), name='password_reset_confirm'),
     path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'), name='password_reset_complete'),
 
