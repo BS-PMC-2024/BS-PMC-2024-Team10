@@ -103,6 +103,17 @@
                                             </svg>
                                         </div>
                                     </a>
+                                    <div class="p-4">
+                                        <h3 class="text-lg font-bold">{{ recording.title }}</h3>
+                                        <p>{{ recording.description }}</p>
+                                        <button class="favorite-button" onclick="toggleFavorite({{ recording.id }})">
+                                            {% if recording.id in favorite_recordings_ids %}
+                                                Remove from Favorites
+                                            {% else %}
+                                                Add to Favorites
+                                            {% endif %}
+                                        </button>
+                                    </div>
 
 
                                 </div>
@@ -116,6 +127,25 @@
                 </div>
             </div>
         </div>
-
+    <script>
+        function toggleFavorite(recordingId) {
+            fetch(/toggle_favorite/${recordingId}/, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({})
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.status === 'added') {
+                      alert('Added to favorites');
+                  } else if (data.status === 'removed') {
+                      alert('Removed from favorites');
+                  }
+                  location.reload(); // Reload the page to update the button text
+              });
+        }
+    </script>
 </body>
 </html>

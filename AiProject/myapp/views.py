@@ -395,3 +395,32 @@ def practitioner_submissions(request):
         'submissions': submissions,
     }
     return render(request, 'practitioner_submissions.html', context)
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import Recording, Favorite
+
+@login_required
+def toggle_favorite(request, recording_id):
+    recording = get_object_or_404(Recording, id=recording_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, recording=recording)
+    if not created:
+        favorite.delete()
+        status = 'removed'
+    else:
+        status = 'added'
+    
+    return JsonResponse({'status': status})
+
+@login_required
+def my_favorites(request):
+    favorites = Favorite.objects.filter(user=request.user)
+    favorite_recordings = [favorite.recording for favorite in favorites]
+    
+    context = {
+        'recordings': favorite_recordings,
+    }
+    return render(request, 'my_favorites.html', context)
