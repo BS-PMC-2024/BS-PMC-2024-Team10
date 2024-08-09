@@ -207,15 +207,15 @@ def custom_404(request, exception=None):
     return render(request, '404.html', status=404)
 
 
-# def grades(request  ):
-#     # Get the currently logged-in user
-#     student = request.user
-#     # Retrieve submissions for the logged-in student
-#     submissions = Submission.objects.filter(student=student)
-#     context = {
-#         'submissions': submissions
-#     }
-#     return render(request, 'grades.html', context)
+def grades(request  ):
+    # Get the currently logged-in user
+    student = request.user
+    # Retrieve submissions for the logged-in student
+    submissions = Submission.objects.filter(student=student)
+    context = {
+        'submissions': submissions
+    }
+    return render(request, 'grades.html', context)
 
 
 @login_required
