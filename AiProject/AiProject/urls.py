@@ -17,6 +17,7 @@ urlpatterns = [
     path('adminpage/', views.adminpage, name='adminpage'),
     path('adminpage/users', views.users, name='users'),
     path('adminpage/report', views.report, name='report'),
+    path('adminpage/chat_with_gpt/', views.chat_with_gpt, name='chat_with_gpt'),
 
 
     #student
@@ -53,3 +54,8 @@ urlpatterns = [
    
 ]
 handler404 = 'myapp.views.custom_404'
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
