@@ -381,3 +381,23 @@ def add_study_material(request):
         form = StudyMaterialForm()
     return render(request, 'add_study_material.html', {'form': form})
 
+
+
+
+# sprint 333333333333333333333333333333333333333333333333333333333
+@csrf_exempt
+def chat_with_gpt(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        user_message = data.get('message')
+        try:
+            response = openai.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": user_message}]
+            )
+            gpt_message = response.choices[0].message.content.strip()
+            return JsonResponse({'message': gpt_message})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=405)
