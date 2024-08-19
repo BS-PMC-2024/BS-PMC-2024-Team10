@@ -401,3 +401,4 @@ def chat_with_gpt(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method.'}, status=405)
+    
