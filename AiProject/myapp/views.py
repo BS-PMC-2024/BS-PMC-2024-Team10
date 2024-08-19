@@ -402,3 +402,7 @@ def chat_with_gpt(request):
     else:
         return JsonResponse({'error': 'Invalid request method.'}, status=405)
     
+
+def users(request):
+    all_users = User.objects.all()
+    return render(request, 'users.html', {'users': all_users})
