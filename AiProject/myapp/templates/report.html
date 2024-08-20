@@ -1,0 +1,124 @@
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+    <title>Recordings</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+<body>
+    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
+                <div class="flex items-center gap-4 text-[#0d151c]">
+                    <div class="size-4">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_6_319)">
+                                <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_6_319"><rect width="48" height="48" fill="white"></rect></clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h2 class="text-[#0d151c] text-lg font-bold leading-tight tracking-[-0.015em]">Ai Buddy</h2>
+                </div>
+                <div class="flex flex-1 justify-end gap-8">
+                    <div class="flex items-center gap-9">
+                        <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'adminpage' %}">Home</a>
+                        <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'users' %}">Users</a>
+                        <a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'report' %}">Recordings</a>
+                        {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'logout' %}" class="text-[#0d151c] text-sm font-medium leading-normal">
+                            {% csrf_token %}
+                            <button style=" margin-top: 15px;" type="submit" class="text-[#0d151c] text-sm font-medium leading-normal">Logout</button>
+                        </form>
+                        {% else %}
+                        <li><a class="text-[#0d151c] text-sm font-medium leading-normal" href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'change_password' %}">Change Password</a></li>
+                    </div>
+                </div>
+            </header>
+            <div class="px-40 flex flex-1 justify-center py-5">
+                <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+                    <div class="flex flex-wrap justify-between gap-3 p-4">
+                        <p class="text-[#0d151c] tracking-light text-[32px] font-bold leading-tight min-w-72">Manage Recordings</p>
+                    </div>
+                    <div class="px-4 py-3 @container">
+                        <div class="flex overflow-hidden rounded-xl border border-[#cedde8] bg-slate-50">
+                            <table class="flex-1">
+                                <thead>
+                                    <tr class="bg-slate-50">
+                                        <th class="table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-120 px-4 py-3 text-left text-[#0d151c] w-[400px] text-sm font-medium leading-normal">Title</th>
+                                        <th class="table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-240 px-4 py-3 text-left text-[#0d151c] w-[400px] text-sm font-medium leading-normal">Description</th>
+                                        <th class="table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-240 px-4 py-3 text-left text-[#0d151c] w-[400px] text-sm font-medium leading-normal">Uploaded By</th>
+                                        <th class="table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-360 px-4 py-3 text-left text-[#0d151c] w-60 text-[#49779c] text-sm font-medium leading-normal">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% for recording in recordings %}
+                                  <tr class="border-t border-t-[#cedde8]">
+                                      <td class="table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-120 h-[72px] px-4 py-2 w-[400px] text-[#49779c] text-sm font-normal leading-normal">{{ recording.title }}</td>
+                                      <td class="table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-240 h-[72px] px-4 py-2 w-[400px] text-[#49779c] text-sm font-normal leading-normal">
+                                          {{ recording.description|default:"NONE" }}
+                                      </td>
+                                      <td class="table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-240 h-[72px] px-4 py-2 w-[400px] text-[#49779c] text-sm font-normal leading-normal">{{ recording.uploaded_by.username }}</td>
+                                      <td class="table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-360 h-[72px] px-4 py-2 w-60 text-[#49779c] text-sm font-bold leading-normal tracking-[0.015em]">
+                                          <button onclick="deleteRecording('{{ recording.id }}')" class="text-red-600">Delete</button>
+                                      </td>
+                                  </tr>
+                                  {% endfor %}
+                              </tbody>
+                            </table>
+                        </div>
+                        <style>
+                            @container(max-width:120px) {
+                                .table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-120 {
+                                    display: none;
+                                }
+                            }
+                            @container(max-width:240px) {
+                                .table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-240 {
+                                    display: none;
+                                }
+                            }
+                            @container(max-width:360px) {
+                                .table-d15c326c-3fd6-4f14-adbb-d5a17cd33027-column-360 {
+                                    display: none;
+                                }
+                            }
+                        </style>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function deleteRecording(recordingId) {
+    if (confirm('Are you sure you want to delete this recording?')) {
+        fetch(/delete_recording/${recordingId}/, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert(data.message);
+                window.location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+}
+
+    </script>
+</body>
+</html>

@@ -406,3 +406,22 @@ def chat_with_gpt(request):
 def users(request):
     all_users = User.objects.all()
     return render(request, 'users.html', {'users': all_users})
+
+
+def report(request):
+    all_recordings = Recording.objects.all()
+    return render(request, 'report.html', {'recordings': all_recordings})
+
+
+
+@csrf_exempt
+def delete_recording(request, recording_id):
+    if request.method == 'POST':
+        try:
+            recording = get_object_or_404(Recording, id=recording_id)
+            recording.delete()
+            return JsonResponse({'message': 'Recording deleted successfully.'})
+        except Recording.DoesNotExist:
+            return JsonResponse({'error': 'Recording does not exist.'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=405)
