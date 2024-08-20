@@ -425,3 +425,18 @@ def delete_recording(request, recording_id):
             return JsonResponse({'error': 'Recording does not exist.'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request method.'}, status=405)
+
+
+
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
+def delete_user(request, username):
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(username=username)
+            user.delete()
+            return JsonResponse({'message': 'User deleted successfully.'})
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist.'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=405)

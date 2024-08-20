@@ -5,7 +5,7 @@ from django.contrib import admin # type: ignore
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
-from myapp.views import delete_user
+from myapp.views import delete_user,delete_recording
 from myapp import views
 from myapp.views import myCourses, toggle_favorite, my_favorites
 
@@ -18,6 +18,9 @@ urlpatterns = [
     path('adminpage/users', views.users, name='users'),
     path('adminpage/report', views.report, name='report'),
     path('adminpage/chat_with_gpt/', views.chat_with_gpt, name='chat_with_gpt'),
+    path('delete_user/<str:username>/', delete_user, name='delete_user'),
+    path('delete_recording/<int:recording_id>/', delete_recording, name='delete_recording'),
+
 
 
     #student
@@ -51,6 +54,9 @@ urlpatterns = [
 
     path('toggle_favorite/<int:recording_id>/', toggle_favorite, name='toggle_favorite'),
     path('my_favorites/', my_favorites, name='my_favorites'),
+    path('recording_success/', views.recording_success, name='recording_success'),
+    path('study_material_success/', views.study_material_success, name='study_material_success'),
+    path('test_success/', views.test_success, name='test_success'),
    
 ]
 handler404 = 'myapp.views.custom_404'
