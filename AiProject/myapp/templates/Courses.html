@@ -8,12 +8,67 @@
       href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
     />
 
-    <title>Galileo Design</title>
+    <title>My Favorite Recordings</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  </head>
-  <body>
+    <style>
+      .recording-card {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 300px;
+          height: 250px;
+          background-color: #fff;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          margin: 10px;
+      }
+      .recording-card:hover {
+          transform: scale(1.05);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+      .play-button {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 64px;
+          height: 64px;
+          background-color: rgba(0, 0, 0, 0.5);
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+      .play-button svg {
+          fill: #fff;
+      }
+      .favorite-button {
+          margin-top: 10px;
+          padding: 5px 10px;
+          background-color: #ff6b6b;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+      .favorite-button:hover {
+          background-color: #ff4c4c;
+      }
+      .header-link {
+          text-[#0d151c];
+          text-sm;
+          font-medium;
+          leading-normal;
+      }
+  </style>
+</head>
+<body>
     <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
       <div class="layout-container flex h-full grow flex-col">
         <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
@@ -63,28 +118,47 @@
           </div>
         </header>
         
-            <div class="px-40 flex flex-1 justify-center py-5">
-                <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
-                    <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
-                        <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Your Recordings</h2>
-                        <div class="px-4 py-3">
+
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+              <div class="relative flex size-full min-h-screen flex-col bg-slate-50 group/design-root overflow-x-hidden">
+                  <h2 class="text-[#0d151c] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">My Favorite Recordings</h2>
+                  <div class="px-4 py-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             {% for recording in recordings %}
-                                <div class="mb-4 p-4 bg-white shadow rounded">
-                                    <h3 class="text-lg font-bold">{{ recording.title }}</h3>
-                                    <p>{{ recording.description }}</p>
-                                    {% if recording.confession %}
-                                        <p><a href="{{ recording.confession.url }}" class="text-blue-500">Download Recording</a></p>
-                                    {% else %}
-                                        <p>No file uploaded</p>
-                                    {% endif %}
-                                </div>
+
+
+                            <div class="recording-card">
+                              <a href="{{ recording.confession.url }}" target="_blank">
+                                  <img src="https://www.elegantthemes.com/blog/wp-content/uploads/2023/10/how-to-learn-ai-ft-img-3-min.jpg" alt="{{ recording.title }}" class="w-full h-full object-cover">
+                                  <div class="play-button">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" fill="currentColor" viewBox="0 0 256 256">
+                                          <path d="M223.87,110.5,91.85,26.7a23.84,23.84,0,0,0-24.06-.6A24.28,24.28,0,0,0,56,48V208a24.27,24.27,0,0,0,11.79,21.9,23.84,23.84,0,0,0,24.06-.6l132-83.8a24.2,24.2,0,0,0,0-41Z"></path>
+                                      </svg>
+                                  </div>
+                              </a>
+                              <div class="p-4">
+                                  <h3 class="text-lg font-bold">{{ recording.title }}</h3>
+                                  <p>{{ recording.description }}</p>
+                              </div>
+                          </div>
+
+
+
                             {% endfor %}
                         </div>
+                        {% if not recordings %}
+                        <p class="text-center text-gray-500">No recordings found.</p>
+                    {% endif %}
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
+
+
+
     <script>
         function toggleDropdown() {
             var dropdown = document.getElementById("dropdownMenu");
